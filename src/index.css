@@ -156,6 +156,14 @@ ul {
   box-shadow: var(--shadow-3);
 }
 
+.btn-hipster {
+  background: var(--clr-tertiary-1);
+}
+
+.btn-hipster:hover {
+  background: var(--clr-tertiary-0);
+}
+
 .btn-block {
   width: 100%;
 }
