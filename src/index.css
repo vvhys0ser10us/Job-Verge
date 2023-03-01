@@ -58,6 +58,7 @@ html {
 
 body {
   background: var(--clr-background-primary);
+  color: var(--clr-main);
   font-family: var(--bodyFont);
   font-weight: 400;
   line-height: 1.75;
