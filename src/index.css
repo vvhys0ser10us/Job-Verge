@@ -159,6 +159,11 @@ ul {
   width: 100%;
 }
 
+.btn-hero {
+  font-size: 1.25rem;
+  padding: 0.5rem 1.25rem;
+}
+
 /* form */
 .form {
   width: 90vw;
@@ -211,4 +216,44 @@ ul {
   color: var(--clr-tertiary-1);
   letter-spacing: var(--letterSpacing);
   text-transform: capitalize;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  width: 6rem;
+  height: 6rem;
+  border: 5px solid var(--clr-highlight-2);
+  border-radius: 50%;
+  border-top-color: var(--clr-highlight-1);
+  animation: spinner 2s linear infinite;
+}
+.loading-center {
+  margin: 0 auto;
+}
+/* title */
+
+.title {
+  text-align: center;
+}
+
+.title-underline {
+  background: var(--clr-highlight-1);
+  width: 7rem;
+  height: 0.25rem;
+  margin: 0 auto;
+  margin-top: -1rem;
+}
+
+.container {
+  width: var(--fluid-width);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.full-page {
+  min-height: 100vh;
 }
