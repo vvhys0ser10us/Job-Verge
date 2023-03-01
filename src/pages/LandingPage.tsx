@@ -1,13 +1,12 @@
-import logo from '../assets/images/logo.png'
-import main from '../assets/images/main.svg'
 import styled from 'styled-components'
+import { Logo } from '../components'
+import main from '../assets/images/main.svg'
 
 const LandingPage = () => {
   return (
     <Wrapper>
       <nav>
-        <img src={logo} alt="logo" className="logo" />
-        <h4>Job Verge</h4>
+        <Logo />
       </nav>
       <div className="container page">
         {/* info */}
@@ -36,16 +35,6 @@ const Wrapper = styled.main`
     margin: 0 auto;
     height: var(--nav-height);
     display: flex;
-    align-items: center;
-    column-gap: 1rem;
-
-    img {
-      height: 3rem;
-    }
-
-    h4 {
-      margin-bottom: 0;
-    }
   }
 
   .page {
