@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   align-items: center;
   column-gap: 1rem;
 
-  img {
+  .logo {
     height: 3rem;
   }
 
