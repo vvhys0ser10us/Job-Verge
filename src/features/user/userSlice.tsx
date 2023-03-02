@@ -1,16 +1,45 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import customFetch from '../../utils/axios'
 
-type User = {}
+type LoginUser = {
+  email: string
+  password: string
+}
 
-type UserStateType = {
+type RegUser = {
+  name: string
+  email: string
+  password: string
+}
+
+export type UserStateType = {
   isLoading: boolean
-  user: User | null
+  user: LoginUser | RegUser | null
 }
 
 const initialState: UserStateType = {
   isLoading: false,
   user: null,
 }
+
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
+  async (user, thunkAPI) => {
+    try {
+      const resp = await customFetch.post('/auth/testingRegister')
+      console.log(resp)
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message)
+      }
+    }
+  }
+)
+
+export const loginUser = createAsyncThunk(
+  'user/loginUser',
+  async (user, thunkAPI) => {}
+)
 
 const userSlice = createSlice({
   name: 'user',

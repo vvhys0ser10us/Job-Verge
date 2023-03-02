@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Logo, FormRow } from '../components'
 import { toast } from 'react-toastify'
+import { registerUser, loginUser } from '../features/user/userSlice'
+import { useAppDispatch, useAppSelector } from '../utils/hooks'
 
 type FormState = {
   name: string
@@ -20,6 +22,8 @@ const initialState: FormState = {
 
 const RegisterPage = () => {
   const [value, setValue] = useState<FormState>(initialState)
+  const { user, isLoading } = useAppSelector((store) => store.user)
+  const dispatch = useAppDispatch()
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -27,7 +31,13 @@ const RegisterPage = () => {
 
     if (!email || !password || (!isMember && !name)) {
       toast.error('Please fill out all fields.')
+      return
     }
+    if (isMember) {
+      dispatch(loginUser({ email, password }))
+      return
+    }
+    dispatch(registerUser({ name, email, password }))
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
