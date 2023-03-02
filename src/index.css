@@ -54,6 +54,14 @@ html {
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* toastify */
+  --toastify-color-dark: var(--clr-background-primary);
+  --toastify-color-info: var(--clr-highlight-1);
+  --toastify-color-success: var(--clr-highlight-1);
+  --toastify-color-warning: var(--clr-highlight-1);
+  --toastify-color-error: var(--clr-highlight-1);
+  --toastify-font-family: var(--bodyFont);
 }
 
 body {
@@ -277,4 +285,8 @@ input:-webkit-autofill {
 }
 .full-page {
   min-height: 100vh;
+}
+
+.Toastify__toast {
+  letter-spacing: var(--letterSpacing);
 }
