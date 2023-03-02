@@ -227,6 +227,18 @@ ul {
   text-transform: capitalize;
 }
 
+/* input autofill background color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--clr-background-secondary) inset !important;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--clr-main);
+}
+
 @keyframes spinner {
   to {
     transform: rotate(360deg);
