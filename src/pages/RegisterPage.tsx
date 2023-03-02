@@ -5,6 +5,7 @@ import { Logo, FormRow } from '../components'
 import { toast } from 'react-toastify'
 import { registerUser, loginUser } from '../features/user/userSlice'
 import { useAppDispatch, useAppSelector } from '../utils/hooks'
+import { useNavigate } from 'react-router-dom'
 
 type FormState = {
   name: string
@@ -24,6 +25,13 @@ const RegisterPage = () => {
   const [value, setValue] = useState<FormState>(initialState)
   const { user, isLoading } = useAppSelector((store) => store.user)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [user])
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -45,7 +53,7 @@ const RegisterPage = () => {
   }
 
   const toggleMember = () => {
-    setValue({ ...value, isMember: !value.isMember })
+    setValue({ ...initialState, isMember: !value.isMember })
   }
 
   return (
@@ -80,7 +88,7 @@ const RegisterPage = () => {
 
         <button
           type="submit"
-          className="btn btn-block form-btn"
+          className={`btn btn-block form-btn ${isLoading && 'btn-loading'}`}
           disabled={isLoading}
         >
           submit
@@ -118,13 +126,17 @@ const Wrapper = styled.section`
       margin-top: 2rem;
     }
 
+    .btn-loading {
+      background: var(--clr-highlight-0);
+    }
+
     p {
       color: var(--clr-main);
       text-align: center;
       letter-spacing: var(--letterSpacing);
       span {
         cursor: pointer;
-
+        transition: var(--transition);
         color: var(--clr-highlight-1);
         &:hover {
           color: var(--clr-highlight-2);

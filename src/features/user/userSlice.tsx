@@ -2,8 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import customFetch from '../../utils/axios'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { getUserStorage, setUserStorage } from '../../utils/localStorage'
 
-type User = {
+export type User = {
   email: string
   name?: string
   password: string
@@ -16,7 +17,7 @@ export type UserStateType = {
 
 const initialState: UserStateType = {
   isLoading: false,
-  user: null,
+  user: getUserStorage(),
 }
 
 export const registerUser = createAsyncThunk(
@@ -62,6 +63,7 @@ const userSlice = createSlice({
         } = action
         state.isLoading = false
         state.user = user
+        setUserStorage(user)
         toast.success(`Welcome, ${user.name}!`)
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
@@ -76,6 +78,7 @@ const userSlice = createSlice({
         const { user } = payload
         state.isLoading = false
         state.user = user
+        setUserStorage(user)
         toast.success(`Welcome back, ${user.name}!`)
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
