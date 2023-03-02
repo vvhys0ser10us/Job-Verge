@@ -289,4 +289,5 @@ input:-webkit-autofill {
 
 .Toastify__toast {
   letter-spacing: var(--letterSpacing);
+  text-transform: capitalize;
 }

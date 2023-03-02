@@ -56,10 +56,11 @@ const RegisterPage = () => {
 
         {!value.isMember && (
           <FormRow
-            type="name"
+            type="text"
             name="name"
             value={value.name}
             handleChange={onChange}
+            labelText="username"
           />
         )}
 
@@ -77,7 +78,11 @@ const RegisterPage = () => {
           handleChange={onChange}
         />
 
-        <button type="submit" className="btn btn-block form-btn">
+        <button
+          type="submit"
+          className="btn btn-block form-btn"
+          disabled={isLoading}
+        >
           submit
         </button>
 
