@@ -1,12 +1,18 @@
-import React from 'react'
 import styled from 'styled-components'
 import Logo from './Logo'
 import NavLinks from './NavLinks'
+import { useAppSelector } from '../utils/hooks'
 
 const SidebarBig = () => {
+  const { isSidebarOpen } = useAppSelector((state) => state.user)
+
   return (
     <Wrapper>
-      <div className="sidebar-container show-sidebar">
+      <div
+        className={
+          isSidebarOpen ? 'sidebar-container show-sidebar' : 'sidebar-container'
+        }
+      >
         <div className="content">
           <header>
             <Logo />

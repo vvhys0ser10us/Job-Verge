@@ -1,16 +1,23 @@
-import React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa'
 import Logo from './Logo'
-import { useAppSelector } from '../utils/hooks'
+import { useAppSelector, useAppDispatch } from '../utils/hooks'
+import { toggleSidebar } from '../features/user/userSlice'
 
 const Navbar = () => {
+  const [showLogout, setShowLogout] = useState<boolean>(false)
   const { user } = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch()
 
   return (
     <Wrapper>
       <div className="nav-center">
-        <button type="button" className="toggle-btn">
+        <button
+          type="button"
+          className="toggle-btn"
+          onClick={() => dispatch(toggleSidebar())}
+        >
           <FaAlignLeft />
         </button>
         <div className="logo-container">
@@ -20,13 +27,17 @@ const Navbar = () => {
         <h3 className="logo-text">dashboard</h3>
 
         <div className="btn-container">
-          <button type="button" className="btn">
+          <button
+            type="button"
+            className="btn"
+            onClick={() => setShowLogout(!showLogout)}
+          >
             <FaUserCircle />
             {user?.name}
             <FaCaretDown />
           </button>
 
-          <div className="dropdown show-dropdown">
+          <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
             <button type="button" className="dropdown-btn">
               logout
             </button>
@@ -104,7 +115,6 @@ const Wrapper = styled.nav`
     text-align: center;
     visibility: hidden;
     border-radius: var(--borderRadius);
-    transition: var(--transition);
     &:hover {
       background: var(--clr-highlight-2);
     }
