@@ -28,8 +28,8 @@ const Wrapper = styled.aside`
     .sidebar-container {
       min-height: 100vh;
       height: 100%;
-      width: 300px;
-      margin-left: -300px;
+      width: 280px;
+      margin-left: -280px;
       transition: var(--transition);
     }
 
@@ -46,12 +46,14 @@ const Wrapper = styled.aside`
       height: 6rem;
       display: flex;
       align-items: center;
-      padding-left: 2rem;
+      padding-left: 2.5rem;
     }
+
     .nav-links {
-      padding-top: 3rem;
+      padding-top: 4rem;
       display: flex;
       flex-direction: column;
+      row-gap: 1rem;
     }
 
     .nav-link {
@@ -66,11 +68,11 @@ const Wrapper = styled.aside`
 
     .nav-link:hover {
       background: var(--clr-background-secondary);
-      color: var(--clr-highlight-1);
+      color: var(--clr-highlight-2);
       padding-left: 4.5rem;
     }
     .nav-link:hover .icon {
-      color: var(--clr-highlight-1);
+      color: var(--clr-highlight-2);
     }
     .icon {
       font-size: 1.5rem;

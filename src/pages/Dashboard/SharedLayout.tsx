@@ -8,14 +8,26 @@ const SharedLayout = () => {
     <Wrapper className="full-page">
       <SidebarBig></SidebarBig>
       <SidebarSm></SidebarSm>
-      <Navbar></Navbar>
-      <div className="dashboard-page">
-        <Outlet></Outlet>
+      <div>
+        <Navbar></Navbar>
+        <div className="dashboard-page">
+          <Outlet></Outlet>
+        </div>
       </div>
     </Wrapper>
   )
 }
 
-const Wrapper = styled.main``
+const Wrapper = styled.main`
+  .dashboard-page {
+    background: var(--clr-background-secondary);
+    min-height: calc(100vh - var(--nav-height));
+  }
+
+  @media (min-width: 992px) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+`
 
 export default SharedLayout
