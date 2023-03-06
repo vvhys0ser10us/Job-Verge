@@ -3,7 +3,11 @@ import links from '../utils/links'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-const NavLinks = () => {
+type PropType = {
+  toggle?: () => void
+}
+
+const NavLinks = ({ toggle }: PropType) => {
   return (
     <Wrapper className="nav-links">
       {links.map((link) => {
@@ -15,6 +19,7 @@ const NavLinks = () => {
               return isActive ? 'nav-link active' : 'nav-link'
             }}
             key={id}
+            onClick={toggle}
             end
           >
             <span className="icon">{icon}</span>

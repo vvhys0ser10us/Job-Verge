@@ -9,6 +9,10 @@ const SidebarSm = () => {
   const { isSidebarOpen } = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
 
+  const toggle = () => {
+    dispatch(toggleSidebar())
+  }
+
   return (
     <Wrapper>
       <div
@@ -19,16 +23,13 @@ const SidebarSm = () => {
         }
       >
         <div className="content">
-          <button
-            className="close-btn"
-            onClick={() => dispatch(toggleSidebar())}
-          >
+          <button className="close-btn" onClick={toggle}>
             <FaTimes />
           </button>
           <header>
             <Logo />
           </header>
-          <NavLinks />
+          <NavLinks toggle={toggle} />
         </div>
       </div>
     </Wrapper>
@@ -48,6 +49,7 @@ const Wrapper = styled.aside`
   .content {
     margin: 1rem auto;
     background: var(--clr-background-primary);
+    max-width: var(--fixed-width);
     width: 80%;
     height: 80%;
     border-radius: var(--borderRadius);
