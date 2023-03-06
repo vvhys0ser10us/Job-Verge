@@ -245,7 +245,14 @@ ul {
   .form-group {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    align-items: center;
     column-gap: 2rem;
+    row-gap: 0.5rem;
+  }
+
+  .form-group button {
+    align-self: end;
+    margin-bottom: 1rem;
   }
 }
 

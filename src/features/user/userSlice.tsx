@@ -12,6 +12,8 @@ export type User = {
   email: string
   name?: string
   password: string
+  location?: string
+  lastName?: string
 }
 
 export type UserStateType = {
