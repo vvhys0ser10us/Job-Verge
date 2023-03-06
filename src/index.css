@@ -235,6 +235,26 @@ ul {
   text-transform: capitalize;
 }
 
+.dashboard-form {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0;
+}
+
+@media (min-width: 768px) {
+  .form-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .form-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 /* input autofill background color */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

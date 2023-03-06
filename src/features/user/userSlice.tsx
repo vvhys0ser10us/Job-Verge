@@ -21,7 +21,7 @@ export type UserStateType = {
 }
 
 const initialState: UserStateType = {
-  isSidebarOpen: true,
+  isSidebarOpen: false,
   isLoading: false,
   user: getUserStorage(),
 }

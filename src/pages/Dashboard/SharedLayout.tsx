@@ -1,4 +1,3 @@
-import React from 'react'
 import { SidebarBig, Navbar, SidebarSm } from '../../components'
 import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
@@ -22,6 +21,7 @@ const Wrapper = styled.main`
   .dashboard-page {
     background: var(--clr-background-secondary);
     min-height: calc(100vh - var(--nav-height));
+    padding: 2rem 0;
   }
 
   @media (min-width: 992px) {

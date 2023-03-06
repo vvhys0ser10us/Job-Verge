@@ -50,6 +50,7 @@ const Wrapper = styled.aside`
     margin: 1rem auto;
     background: var(--clr-background-primary);
     max-width: var(--fixed-width);
+    min-height: 500px;
     width: 80%;
     height: 80%;
     border-radius: var(--borderRadius);
