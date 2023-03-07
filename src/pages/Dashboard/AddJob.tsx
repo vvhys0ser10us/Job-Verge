@@ -1,28 +1,45 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import { FormRow, FormSelect } from '../../components'
-import { Job } from '../../utils/types'
-import { useAppSelector } from '../../utils/hooks'
+import { useAppSelector, useAppDispatch } from '../../utils/hooks'
+import { toast } from 'react-toastify'
+import {
+  handleInputChange,
+  handleSelectChange,
+  clearValues,
+  addJob,
+} from '../../features/job/jobSlice'
 
 const AddJob = () => {
-  const { isLoading } = useAppSelector((state) => state.job)
+  const {
+    isLoading,
+    job: { company, jobLocation, jobType, position, status },
+    isEditing,
+    editJobId,
+  } = useAppSelector((state) => state.job)
 
-  const [values, setValues] = useState<Job>({
-    position: '',
-    company: '',
-    jobLocation: '',
-    status: 'pending',
-    jobType: 'full-time',
-  })
+  const dispatch = useAppDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.value })
+    const name = e.target.name
+    const value = e.target.value
+    dispatch(handleInputChange({ name, value }))
   }
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {}
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const name = e.target.name
+    const value = e.target.value
+    dispatch(handleSelectChange({ name, value }))
+  }
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
+
+    if (!position || !company || !jobLocation) {
+      toast.error('Please fill out all fields.')
+      return
+    }
+    dispatch(addJob({ company, jobLocation, jobType, position, status }))
   }
 
   return (
@@ -34,26 +51,26 @@ const AddJob = () => {
           <FormRow
             type="text"
             name="position"
-            value={values.position}
+            value={position}
             handleChange={handleChange}
           />
           <FormRow
             type="text"
             name="company"
-            value={values.company}
+            value={company}
             handleChange={handleChange}
           />
           <FormRow
             type="text"
             name="jobLocation"
-            value={values.jobLocation}
+            value={jobLocation}
             handleChange={handleChange}
             labelText="job location"
           />
 
           <FormSelect
             name="status"
-            value={values.status}
+            value={status}
             handleChange={handleSelect}
             list={['interview', 'declined', 'pending']}
           />
@@ -61,7 +78,7 @@ const AddJob = () => {
           <FormSelect
             name="jobType"
             labelText="job type"
-            value={values.jobType}
+            value={jobType}
             handleChange={handleSelect}
             list={['intership', 'full-time', 'part-time', 'remote']}
           />
@@ -70,7 +87,7 @@ const AddJob = () => {
             <button
               type="button"
               className="btn btn-block clear-btn"
-              onClick={() => console.log('clear values')}
+              onClick={() => dispatch(clearValues())}
             >
               clear
             </button>
