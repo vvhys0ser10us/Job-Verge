@@ -3,18 +3,14 @@ import styled from 'styled-components'
 import { FormRow } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { toast } from 'react-toastify'
-
-type ProfileType = {
-  name: string
-  lastName: string
-  email: string
-  location: string
-}
+import { updateUser } from '../../features/user/userSlice'
+import { UpdateUser } from '../../features/user/userSlice'
 
 const Profile = () => {
   const { user, isLoading } = useAppSelector((state) => state.user)
+  const dispatch = useAppDispatch()
 
-  const [values, setValues] = useState<ProfileType>({
+  const [values, setValues] = useState<UpdateUser>({
     name: user?.name || '',
     email: user?.email || '',
     lastName: user?.lastName || '',
@@ -32,6 +28,7 @@ const Profile = () => {
       toast.error('please fill out all fields')
       return
     }
+    dispatch(updateUser({ name, email, lastName, location }))
   }
 
   return (
@@ -48,7 +45,7 @@ const Profile = () => {
           ></FormRow>
           <FormRow
             type="text"
-            name="lastname"
+            name="lastName"
             value={values.lastName}
             labelText="last name"
             handleChange={handleChange}

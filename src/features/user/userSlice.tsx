@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import { createAppAsyncThunk } from '../../utils/hooks'
 import customFetch from '../../utils/axios'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -10,10 +11,25 @@ import {
 
 export type User = {
   email: string
+  name: string
+  location: string
+  lastName: string
+  token: string
+}
+
+// type for login/register user
+export type LoginUser = {
+  email: string
   name?: string
   password: string
-  location?: string
-  lastName?: string
+}
+
+// type for update user
+export type UpdateUser = {
+  email: string
+  name: string
+  location: string
+  lastName: string
 }
 
 export type UserStateType = {
@@ -28,9 +44,14 @@ const initialState: UserStateType = {
   user: getUserStorage(),
 }
 
-export const registerUser = createAsyncThunk(
+// Return type of the payload creator
+type AsyncThunkUser = {
+  user: User
+}
+
+export const registerUser = createAppAsyncThunk<AsyncThunkUser, LoginUser>(
   'user/registerUser',
-  async (user: User, thunkAPI) => {
+  async (user: LoginUser, thunkAPI) => {
     try {
       const resp = await customFetch.post('/auth/Register', user)
       return resp.data
@@ -42,14 +63,37 @@ export const registerUser = createAsyncThunk(
   }
 )
 
-export const loginUser = createAsyncThunk(
+export const loginUser = createAppAsyncThunk<AsyncThunkUser, LoginUser>(
   'user/loginUser',
-  async (user: User, thunkAPI) => {
+  async (user: LoginUser, thunkAPI) => {
     try {
       const resp = await customFetch.post('/auth/login', user)
       return resp.data
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        return thunkAPI.rejectWithValue(error.response?.data.msg)
+      }
+    }
+  }
+)
+
+export const updateUser = createAppAsyncThunk<AsyncThunkUser, UpdateUser>(
+  'user/updateUser',
+  async (user: UpdateUser, thunkAPI) => {
+    try {
+      const resp = await customFetch.patch('/auth/updateUser', user, {
+        headers: {
+          authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
+        },
+      })
+      return resp.data
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // logout user when unauthorized
+        if (error.response?.status === 401) {
+          thunkAPI.dispatch(logoutUser(null))
+          return thunkAPI.rejectWithValue('Unauthorized! Logging out...')
+        }
         return thunkAPI.rejectWithValue(error.response?.data.msg)
       }
     }
@@ -63,10 +107,13 @@ const userSlice = createSlice({
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen
     },
-    logoutUser: (state) => {
+    logoutUser: (state, { payload }) => {
       state.user = null
       removeUserStorage()
-      toast.success('Logging out...')
+      state.isSidebarOpen = false
+      if (payload) {
+        toast.success('logging out')
+      }
     },
   },
   extraReducers: (builder) => {
@@ -85,8 +132,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
         state.isLoading = false
-        const msg: string = payload + '.'
-        toast.error(msg)
+        toast.error(payload + '.')
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true
@@ -100,8 +146,21 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false
-        const msg: string = payload + '.'
-        toast.error(msg)
+        toast.error(payload + '.')
+      })
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateUser.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        const { user } = payload
+        state.user = user
+        setUserStorage(user)
+        toast.success(`User Updated!`)
+      })
+      .addCase(updateUser.rejected, (state, { payload }) => {
+        state.isLoading = false
+        toast.error(payload)
       })
   },
 })
