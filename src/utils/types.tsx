@@ -1,4 +1,4 @@
-// type for user (type getting from the server, eg. login/register/update )
+// type for user (returned data type from the server, eg. login/register/update )
 export type User = {
   email: string
   name: string
@@ -34,4 +34,18 @@ export type Job = {
   jobLocation: string
   status: JobStatus
   jobType: JobType
+}
+
+type Sort = 'latest' | 'oldest' | 'a-z' | 'z-a'
+
+type SearchStatus = JobStatus | 'all'
+
+type SearchType = JobType | 'all'
+
+// type for search jobs filter
+export type SearchFilter = {
+  search: string
+  searchStatus: SearchStatus
+  searchType: SearchType
+  sort: Sort
 }
