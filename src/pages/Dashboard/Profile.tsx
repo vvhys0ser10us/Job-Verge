@@ -4,7 +4,7 @@ import { FormRow } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { toast } from 'react-toastify'
 import { updateUser } from '../../features/user/userSlice'
-import { UpdateUser } from '../../features/user/userSlice'
+import { UpdateUser } from '../../utils/types'
 
 const Profile = () => {
   const { user, isLoading } = useAppSelector((state) => state.user)

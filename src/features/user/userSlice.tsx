@@ -8,29 +8,7 @@ import {
   setUserStorage,
   removeUserStorage,
 } from '../../utils/localStorage'
-
-export type User = {
-  email: string
-  name: string
-  location: string
-  lastName: string
-  token: string
-}
-
-// type for login/register user
-export type LoginUser = {
-  email: string
-  name?: string
-  password: string
-}
-
-// type for update user
-export type UpdateUser = {
-  email: string
-  name: string
-  location: string
-  lastName: string
-}
+import { User, LoginUser, UpdateUser } from '../../utils/types'
 
 export type UserStateType = {
   isSidebarOpen: boolean

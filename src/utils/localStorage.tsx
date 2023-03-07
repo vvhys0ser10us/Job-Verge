@@ -1,4 +1,4 @@
-import { User } from '../features/user/userSlice'
+import { User } from './types'
 
 export const setUserStorage = (user: User) => {
   localStorage.setItem('user', JSON.stringify(user))
