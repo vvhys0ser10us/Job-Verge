@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
+import { SearchForm } from '../../components'
 
 const AllJobs = () => {
   return (
-    <Wrapper className="dashboard-section">
-      <form className="form dashboard-form">
-        <h2>search form</h2>
-      </form>
-    </Wrapper>
+    <>
+      <SearchForm />
+    </>
   )
 }
 

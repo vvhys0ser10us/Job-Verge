@@ -213,6 +213,7 @@ ul {
   background: var(--clr-background-secondary);
   border: 1px solid var(--clr-secondary);
   text-transform: capitalize;
+  letter-spacing: var(--letterSpacing);
 }
 .form-input,
 .form-select,
