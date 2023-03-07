@@ -311,8 +311,14 @@ input:-webkit-autofill {
   max-width: var(--max-width);
   margin: 0 auto;
 }
+
 .full-page {
   min-height: 100vh;
+}
+
+.dashboard-section {
+  width: 90%;
+  margin: 0 auto;
 }
 
 .Toastify__toast {

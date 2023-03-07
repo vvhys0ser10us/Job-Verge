@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import styled from 'styled-components'
 import { FormRow } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { toast } from 'react-toastify'
@@ -32,7 +31,7 @@ const Profile = () => {
   }
 
   return (
-    <Wrapper>
+    <section className="dashboard-section">
       <form className="form dashboard-form" onSubmit={handleSubmit}>
         <h2>profile</h2>
 
@@ -68,13 +67,8 @@ const Profile = () => {
           </button>
         </div>
       </form>
-    </Wrapper>
+    </section>
   )
 }
-
-const Wrapper = styled.section`
-  width: 90%;
-  margin: 0 auto;
-`
 
 export default Profile

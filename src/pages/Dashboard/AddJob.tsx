@@ -43,7 +43,7 @@ const AddJob = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper className="dashboard-section">
       <form className="form dashboard-form">
         <h2>add job</h2>
 
@@ -107,9 +107,6 @@ const AddJob = () => {
 }
 
 const Wrapper = styled.section`
-  width: 90%;
-  margin: 0 auto;
-
   .btn-container {
     display: flex;
     column-gap: 1rem;
