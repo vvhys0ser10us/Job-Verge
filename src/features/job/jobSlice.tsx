@@ -2,10 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 import { Job } from '../../utils/types'
 import { createAppAsyncThunk } from '../../utils/hooks'
 import customFetch from '../../utils/axios'
-import axios from 'axios'
-import { logoutUser } from '../user/userSlice'
 import { toast } from 'react-toastify'
 import { getAllJobs, hideLoading, showLoading } from '../allJobs/allJobsSlice'
+import { checkUnauthorizedResponse } from '../../utils/checkUnauthorizedResponse'
 
 type JobStateType = {
   job: Job
@@ -45,13 +44,7 @@ export const addJob = createAppAsyncThunk<AddJobThunkType, Job>(
       thunkAPI.dispatch(clearValues())
       return resp.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          thunkAPI.dispatch(logoutUser(null))
-          return thunkAPI.rejectWithValue('Unauthorized! Logging out...')
-        }
-        return thunkAPI.rejectWithValue(error.response?.data.msg)
-      }
+      return checkUnauthorizedResponse(error, thunkAPI)
     }
   }
 )
@@ -76,13 +69,7 @@ export const deleteJob = createAppAsyncThunk<MsgThunkType, string>(
       return resp.data
     } catch (error) {
       thunkAPI.dispatch(hideLoading())
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          thunkAPI.dispatch(logoutUser(null))
-          return thunkAPI.rejectWithValue('Unauthorized! Logging out...')
-        }
-        return thunkAPI.rejectWithValue(error.response?.data.msg)
-      }
+      return checkUnauthorizedResponse(error, thunkAPI)
     }
   }
 )
@@ -104,13 +91,7 @@ export const editJob = createAppAsyncThunk<MsgThunkType, EditJobThunkPrama>(
       thunkAPI.dispatch(clearValues())
       return resp.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          thunkAPI.dispatch(logoutUser(null))
-          return thunkAPI.rejectWithValue('Unauthorized! Logging out...')
-        }
-        return thunkAPI.rejectWithValue(error.response?.data.msg)
-      }
+      return checkUnauthorizedResponse(error, thunkAPI)
     }
   }
 )

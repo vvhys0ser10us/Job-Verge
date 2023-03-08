@@ -1,10 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 import customFetch from '../../utils/axios'
+import { checkUnauthorizedResponse } from '../../utils/checkUnauthorizedResponse'
 import { createAppAsyncThunk } from '../../utils/hooks'
 import { GetJobType, SearchFilter } from '../../utils/types'
-import { logoutUser } from '../user/userSlice'
 
 type AllJobsStateType = {
   jobs: GetJobType[]
@@ -41,13 +40,7 @@ export const getAllJobs = createAppAsyncThunk<AsyncThunkType>(
 
       return resp.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          thunkAPI.dispatch(logoutUser(null))
-          return thunkAPI.rejectWithValue('Unauthorized! Logging out...')
-        }
-        return thunkAPI.rejectWithValue(error.response?.data.msg)
-      }
+      return checkUnauthorizedResponse(error, thunkAPI)
     }
   }
 )

@@ -2,13 +2,13 @@ import { createSlice } from '@reduxjs/toolkit'
 import { createAppAsyncThunk } from '../../utils/hooks'
 import customFetch from '../../utils/axios'
 import { toast } from 'react-toastify'
-import axios from 'axios'
 import {
   getUserStorage,
   setUserStorage,
   removeUserStorage,
 } from '../../utils/localStorage'
 import { User, LoginUser, UpdateUser } from '../../utils/types'
+import { checkUnauthorizedResponse } from '../../utils/checkUnauthorizedResponse'
 
 export type UserStateType = {
   isSidebarOpen: boolean
@@ -34,9 +34,7 @@ export const registerUser = createAppAsyncThunk<AsyncThunkUser, LoginUser>(
       const resp = await customFetch.post('/auth/Register', user)
       return resp.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return thunkAPI.rejectWithValue(error.response?.data.msg)
-      }
+      return checkUnauthorizedResponse(error, thunkAPI)
     }
   }
 )
@@ -48,9 +46,7 @@ export const loginUser = createAppAsyncThunk<AsyncThunkUser, LoginUser>(
       const resp = await customFetch.post('/auth/login', user)
       return resp.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return thunkAPI.rejectWithValue(error.response?.data.msg)
-      }
+      return checkUnauthorizedResponse(error, thunkAPI)
     }
   }
 )
@@ -66,14 +62,7 @@ export const updateUser = createAppAsyncThunk<AsyncThunkUser, UpdateUser>(
       })
       return resp.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // logout user when unauthorized
-        if (error.response?.status === 401) {
-          thunkAPI.dispatch(logoutUser(null))
-          return thunkAPI.rejectWithValue('Unauthorized! Logging out...')
-        }
-        return thunkAPI.rejectWithValue(error.response?.data.msg)
-      }
+      return checkUnauthorizedResponse(error, thunkAPI)
     }
   }
 )
