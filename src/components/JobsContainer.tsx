@@ -1,10 +1,18 @@
 import styled from 'styled-components'
 import SingleJob from './SingleJob'
-import { useAppSelector } from '../utils/hooks'
+import { useAppSelector, useAppDispatch } from '../utils/hooks'
 import noJobImage from '../assets/images/nodisplay.svg'
+import { useEffect } from 'react'
+import { getAllJobs } from '../features/allJobs/allJobsSlice'
+import { GetJobType } from '../utils/types'
 
 const JobsContainer = () => {
   const { isLoading, jobs } = useAppSelector((state) => state.allJobs)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getAllJobs())
+  }, [])
 
   if (isLoading) {
     return (
@@ -27,7 +35,9 @@ const JobsContainer = () => {
     <Wrapper className="dashboard-section">
       <h4>{jobs.length} jobs found</h4>
       <div className="jobs">
-        <SingleJob />
+        {jobs.map((job) => {
+          return <SingleJob key={job._id} {...job} />
+        })}
       </div>
     </Wrapper>
   )

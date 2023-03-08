@@ -49,3 +49,9 @@ export type SearchFilter = {
   searchType: SearchType
   sort: Sort
 }
+
+//job data type returned from server
+export type GetJobType = Job & {
+  _id: string
+  createdAt: string
+}

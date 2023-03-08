@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { SearchForm } from '../../components'
+import { SearchForm, JobsContainer } from '../../components'
 
 const AllJobs = () => {
   return (
     <>
       <SearchForm />
+      <JobsContainer />
     </>
   )
 }
