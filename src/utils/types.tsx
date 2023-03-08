@@ -25,7 +25,7 @@ export type UpdateUser = {
 // type for interview status
 type JobStatus = 'interview' | 'declined' | 'pending'
 
-type JobType = 'intership' | 'full-time' | 'part-time' | 'remote'
+type JobType = 'internship' | 'full-time' | 'part-time' | 'remote'
 
 // type for add jobs
 export type Job = {

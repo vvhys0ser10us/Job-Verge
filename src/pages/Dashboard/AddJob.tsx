@@ -80,7 +80,7 @@ const AddJob = () => {
             labelText="job type"
             value={jobType}
             handleChange={handleSelect}
-            list={['intership', 'full-time', 'part-time', 'remote']}
+            list={['internship', 'full-time', 'part-time', 'remote']}
           />
 
           <div className="btn-container">
