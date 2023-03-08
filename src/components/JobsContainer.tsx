@@ -43,7 +43,18 @@ const JobsContainer = () => {
   )
 }
 
-const Wrapper = styled.section``
+const Wrapper = styled.section`
+  .jobs {
+    display: grid;
+    gap: 2rem 2rem;
+  }
+
+  @media (min-width: 1120px) {
+    .jobs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+`
 
 const Container = styled.section`
   img {

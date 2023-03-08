@@ -2,6 +2,8 @@ import styled from 'styled-components'
 import { FaLocationArrow, FaCalendarAlt, FaBriefcase } from 'react-icons/fa'
 import { GetJobType } from '../utils/types'
 import moment from 'moment'
+import { useAppDispatch } from '../utils/hooks'
+import { deleteJob } from '../features/job/jobSlice'
 
 const SingleJob = ({
   company,
@@ -13,6 +15,7 @@ const SingleJob = ({
   _id,
 }: GetJobType) => {
   const date = moment(createdAt).format('MMM Do, YYYY')
+  const dispatch = useAppDispatch()
 
   return (
     <Wrapper>
@@ -44,7 +47,11 @@ const SingleJob = ({
         <button type="button" className="btn edit-btn">
           edit
         </button>
-        <button type="button" className="btn delete-btn">
+        <button
+          type="button"
+          className="btn delete-btn"
+          onClick={() => dispatch(deleteJob(_id))}
+        >
           delete
         </button>
       </div>
@@ -55,6 +62,10 @@ const SingleJob = ({
 const Wrapper = styled.article`
   background: var(--clr-background-primary);
   border-radius: var(--borderRadius);
+  box-shadow: var(--shadow-2);
+  display: grid;
+  grid-template-rows: 1fr auto;
+
   p {
     margin: 0;
     text-transform: capitalize;
@@ -63,8 +74,9 @@ const Wrapper = styled.article`
 
   header {
     border-bottom: 2px solid var(--clr-background-secondary);
-    padding: 0.5rem 2rem;
-    display: flex;
+    padding: 1rem 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
     column-gap: 2rem;
     .company-icon {
@@ -86,6 +98,7 @@ const Wrapper = styled.article`
   .job-info {
     padding: 1rem 2rem;
     display: grid;
+    grid-template-columns: 1fr;
     row-gap: 0.5rem;
 
     div {
@@ -129,7 +142,7 @@ const Wrapper = styled.article`
   }
 
   .btn-container {
-    padding: 0.5rem 2rem;
+    padding: 1rem 2rem;
     display: flex;
     column-gap: 1rem;
     .edit-btn {
