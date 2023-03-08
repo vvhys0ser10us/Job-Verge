@@ -5,6 +5,7 @@ import customFetch from '../../utils/axios'
 import axios from 'axios'
 import { logoutUser } from '../user/userSlice'
 import { toast } from 'react-toastify'
+import { getAllJobs, hideLoading, showLoading } from '../allJobs/allJobsSlice'
 
 type JobStateType = {
   job: Job
@@ -28,11 +29,11 @@ const initialState: JobStateType = {
   editJobId: '',
 }
 
-type ASyncThunkType = {
+type AddJobThunkType = {
   job: Job
 }
 
-export const addJob = createAppAsyncThunk<ASyncThunkType, Job>(
+export const addJob = createAppAsyncThunk<AddJobThunkType, Job>(
   'job/addJob',
   async (job, thunkAPI) => {
     try {
@@ -49,6 +50,33 @@ export const addJob = createAppAsyncThunk<ASyncThunkType, Job>(
           thunkAPI.dispatch(logoutUser(null))
           return thunkAPI.rejectWithValue('Unauthorized! Logging out...')
         }
+        return thunkAPI.rejectWithValue(error.response?.data.msg)
+      }
+    }
+  }
+)
+
+type DeleteJobThunkType = {
+  msg: string
+}
+
+export const deleteJob = createAppAsyncThunk<DeleteJobThunkType, string>(
+  'job/deleteJob',
+  async (jobId, thunkAPI) => {
+    thunkAPI.dispatch(showLoading())
+    try {
+      const resp = await customFetch.delete(`jobs/${jobId}`, {
+        headers: {
+          authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
+        },
+      })
+
+      thunkAPI.dispatch(getAllJobs())
+      console.log(resp.data)
+      return resp.data
+    } catch (error) {
+      thunkAPI.dispatch(hideLoading())
+      if (axios.isAxiosError(error)) {
         return thunkAPI.rejectWithValue(error.response?.data.msg)
       }
     }
@@ -95,6 +123,12 @@ const jobSlice = createSlice({
       })
       .addCase(addJob.rejected, (state, { payload }) => {
         state.isLoading = false
+        toast.error(payload)
+      })
+      .addCase(deleteJob.fulfilled, (state) => {
+        toast.success('Success! Job deleted.')
+      })
+      .addCase(deleteJob.rejected, (state, { payload }) => {
         toast.error(payload)
       })
   },

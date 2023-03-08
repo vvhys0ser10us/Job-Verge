@@ -38,7 +38,7 @@ export const getAllJobs = createAppAsyncThunk<AsyncThunkType>(
           authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
         },
       })
-      console.log(resp.data)
+
       return resp.data
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -55,7 +55,14 @@ export const getAllJobs = createAppAsyncThunk<AsyncThunkType>(
 const allJobsSlice = createSlice({
   name: 'allJobs',
   initialState,
-  reducers: {},
+  reducers: {
+    showLoading: (state) => {
+      state.isLoading = true
+    },
+    hideLoading: (state) => {
+      state.isLoading = false
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getAllJobs.pending, (state) => {
@@ -86,9 +93,10 @@ const allJobsSlice = createSlice({
       })
       .addCase(getAllJobs.rejected, (state, { payload }) => {
         state.isLoading = false
-        toast.error(payload + '.')
+        toast.error(payload)
       })
   },
 })
 
+export const { hideLoading, showLoading } = allJobsSlice.actions
 export default allJobsSlice.reducer
