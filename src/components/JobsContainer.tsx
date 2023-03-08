@@ -4,7 +4,6 @@ import { useAppSelector, useAppDispatch } from '../utils/hooks'
 import noJobImage from '../assets/images/nodisplay.svg'
 import { useEffect } from 'react'
 import { getAllJobs } from '../features/allJobs/allJobsSlice'
-import { GetJobType } from '../utils/types'
 
 const JobsContainer = () => {
   const { isLoading, jobs } = useAppSelector((state) => state.allJobs)

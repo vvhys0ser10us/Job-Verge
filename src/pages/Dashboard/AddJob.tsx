@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styled from 'styled-components'
 import { FormRow, FormSelect } from '../../components'
 import { useAppSelector, useAppDispatch } from '../../utils/hooks'
@@ -8,6 +7,7 @@ import {
   handleSelectChange,
   clearValues,
   addJob,
+  editJob,
 } from '../../features/job/jobSlice'
 
 const AddJob = () => {
@@ -39,13 +39,30 @@ const AddJob = () => {
       toast.error('Please fill out all fields.')
       return
     }
+
+    if (isEditing) {
+      dispatch(
+        editJob({
+          jobId: editJobId,
+          job: {
+            position,
+            company,
+            jobLocation,
+            jobType,
+            status,
+          },
+        })
+      )
+      return
+    }
+
     dispatch(addJob({ company, jobLocation, jobType, position, status }))
   }
 
   return (
     <Wrapper className="dashboard-section">
       <form className="form dashboard-form">
-        <h2>add job</h2>
+        <h2>{isEditing ? 'edit job' : 'add job'}</h2>
 
         <div className="form-group">
           <FormRow

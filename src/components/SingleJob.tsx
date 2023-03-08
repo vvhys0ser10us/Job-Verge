@@ -3,7 +3,8 @@ import { FaLocationArrow, FaCalendarAlt, FaBriefcase } from 'react-icons/fa'
 import { GetJobType } from '../utils/types'
 import moment from 'moment'
 import { useAppDispatch } from '../utils/hooks'
-import { deleteJob } from '../features/job/jobSlice'
+import { deleteJob, setEditJob } from '../features/job/jobSlice'
+import { Link } from 'react-router-dom'
 
 const SingleJob = ({
   company,
@@ -44,9 +45,24 @@ const SingleJob = ({
       </div>
 
       <div className="btn-container">
-        <button type="button" className="btn edit-btn">
+        <Link
+          to={'/add-job'}
+          className="btn edit-btn"
+          onClick={() =>
+            dispatch(
+              setEditJob({
+                editJobId: _id,
+                position,
+                company,
+                jobLocation,
+                jobType,
+                status,
+              })
+            )
+          }
+        >
           edit
-        </button>
+        </Link>
         <button
           type="button"
           className="btn delete-btn"
