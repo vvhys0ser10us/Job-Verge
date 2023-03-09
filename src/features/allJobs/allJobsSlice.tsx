@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
-import customFetch from '../../utils/axios'
-import { checkUnauthorizedResponse } from '../../utils/checkUnauthorizedResponse'
+import customFetch, { checkUnauthorizedResponse } from '../../utils/axios'
 import { createAppAsyncThunk } from '../../utils/hooks'
 import { GetJobType, SearchFilter } from '../../utils/types'
 
@@ -38,12 +37,7 @@ export const getAllJobs = createAppAsyncThunk<AsyncThunkType>(
   'allJobs/getAllJobs',
   async (_, thunkAPI) => {
     try {
-      const resp = await customFetch.get('/jobs', {
-        headers: {
-          authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
-        },
-      })
-
+      const resp = await customFetch.get<AsyncThunkType>('/jobs')
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)

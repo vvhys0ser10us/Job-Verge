@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createAppAsyncThunk } from '../../utils/hooks'
-import customFetch from '../../utils/axios'
+import customFetch, { checkUnauthorizedResponse } from '../../utils/axios'
 import { toast } from 'react-toastify'
 import {
   getUserStorage,
@@ -8,7 +8,6 @@ import {
   removeUserStorage,
 } from '../../utils/localStorage'
 import { User, LoginUser, UpdateUser } from '../../utils/types'
-import { checkUnauthorizedResponse } from '../../utils/checkUnauthorizedResponse'
 
 export type UserStateType = {
   isSidebarOpen: boolean
@@ -31,7 +30,7 @@ export const registerUser = createAppAsyncThunk<AsyncThunkUser, LoginUser>(
   'user/registerUser',
   async (user: LoginUser, thunkAPI) => {
     try {
-      const resp = await customFetch.post('/auth/Register', user)
+      const resp = await customFetch.post<User>('/auth/Register', user)
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)
@@ -43,7 +42,9 @@ export const loginUser = createAppAsyncThunk<AsyncThunkUser, LoginUser>(
   'user/loginUser',
   async (user: LoginUser, thunkAPI) => {
     try {
-      const resp = await customFetch.post('/auth/login', user)
+      const resp = await customFetch.post<AsyncThunkUser>('/auth/login', user)
+      console.log(resp.data)
+
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)
@@ -55,11 +56,10 @@ export const updateUser = createAppAsyncThunk<AsyncThunkUser, UpdateUser>(
   'user/updateUser',
   async (user: UpdateUser, thunkAPI) => {
     try {
-      const resp = await customFetch.patch('/auth/updateUser', user, {
-        headers: {
-          authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
-        },
-      })
+      const resp = await customFetch.patch<AsyncThunkUser>(
+        '/auth/updateUser',
+        user
+      )
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)

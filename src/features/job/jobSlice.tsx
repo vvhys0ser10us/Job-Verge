@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Job } from '../../utils/types'
 import { createAppAsyncThunk } from '../../utils/hooks'
-import customFetch from '../../utils/axios'
+import customFetch, { checkUnauthorizedResponse } from '../../utils/axios'
 import { toast } from 'react-toastify'
 import { getAllJobs, hideLoading, showLoading } from '../allJobs/allJobsSlice'
-import { checkUnauthorizedResponse } from '../../utils/checkUnauthorizedResponse'
 
+// jobSlice state type
 type JobStateType = {
   job: Job
   isLoading: boolean
@@ -36,11 +36,7 @@ export const addJob = createAppAsyncThunk<AddJobThunkType, Job>(
   'job/addJob',
   async (job, thunkAPI) => {
     try {
-      const resp = await customFetch.post('/jobs', job, {
-        headers: {
-          authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
-        },
-      })
+      const resp = await customFetch.post<AddJobThunkType>('/jobs', job)
       thunkAPI.dispatch(clearValues())
       return resp.data
     } catch (error) {
@@ -58,14 +54,8 @@ export const deleteJob = createAppAsyncThunk<MsgThunkType, string>(
   async (jobId, thunkAPI) => {
     thunkAPI.dispatch(showLoading())
     try {
-      const resp = await customFetch.delete(`jobs/${jobId}`, {
-        headers: {
-          authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
-        },
-      })
-
+      const resp = await customFetch.delete<MsgThunkType>(`jobs/${jobId}`)
       thunkAPI.dispatch(getAllJobs())
-      console.log(resp.data)
       return resp.data
     } catch (error) {
       thunkAPI.dispatch(hideLoading())
@@ -79,15 +69,18 @@ type EditJobThunkPrama = {
   job: Job
 }
 
-export const editJob = createAppAsyncThunk<MsgThunkType, EditJobThunkPrama>(
+type EditJobThunkType = {
+  updatedJob: Job
+}
+
+export const editJob = createAppAsyncThunk<EditJobThunkType, EditJobThunkPrama>(
   'job/editJob',
   async ({ jobId, job }, thunkAPI) => {
     try {
-      const resp = await customFetch.patch(`/jobs/${jobId}`, job, {
-        headers: {
-          authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
-        },
-      })
+      const resp = await customFetch.patch<EditJobThunkType>(
+        `/jobs/${jobId}`,
+        job
+      )
       thunkAPI.dispatch(clearValues())
       return resp.data
     } catch (error) {
