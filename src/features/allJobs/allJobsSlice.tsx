@@ -9,6 +9,8 @@ type AllJobsStateType = {
   jobs: GetJobType[]
   isLoading: boolean
   searchFilter: SearchFilter
+  totalJobs: number
+  numOfPages: number
 }
 
 const searchFilter: SearchFilter = {
@@ -22,10 +24,14 @@ const initialState: AllJobsStateType = {
   jobs: [],
   isLoading: false,
   searchFilter: searchFilter,
+  totalJobs: 0,
+  numOfPages: 0,
 }
 
 type AsyncThunkType = {
   jobs: GetJobType[]
+  totalJobs: number
+  numOfPages: number
 }
 
 export const getAllJobs = createAppAsyncThunk<AsyncThunkType>(
@@ -63,6 +69,8 @@ const allJobsSlice = createSlice({
       })
       .addCase(getAllJobs.fulfilled, (state, { payload }) => {
         state.isLoading = false
+        state.numOfPages = payload.numOfPages
+        state.totalJobs = payload.totalJobs
         state.jobs = payload.jobs.map((job) => {
           const {
             company,
