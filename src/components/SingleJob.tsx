@@ -145,7 +145,7 @@ const Wrapper = styled.article`
     }
 
     .interview {
-      background: var(--clr-tertiary-1);
+      background: var(--clr-tertiary-2);
     }
 
     .declined {
@@ -162,16 +162,16 @@ const Wrapper = styled.article`
     display: flex;
     column-gap: 1rem;
     .edit-btn {
-      background: var(--clr-tertiary-0);
+      background: var(--clr-tertiary-1);
       &:hover {
-        background: var(--clr-tertiary-1);
+        background: var(--clr-tertiary-0);
       }
     }
 
     .delete-btn {
-      background: var(--clr-highlight-0);
+      background: var(--clr-highlight-1);
       &:hover {
-        background: var(--clr-highlight-1);
+        background: var(--clr-highlight-0);
       }
     }
   }

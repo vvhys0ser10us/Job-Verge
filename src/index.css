@@ -212,9 +212,13 @@ ul {
   color: var(--clr-main);
   background: var(--clr-background-secondary);
   border: 1px solid var(--clr-secondary);
-  text-transform: capitalize;
   letter-spacing: var(--letterSpacing);
 }
+
+.form-select {
+  text-transform: capitalize;
+}
+
 .form-input,
 .form-select,
 .btn-block {
