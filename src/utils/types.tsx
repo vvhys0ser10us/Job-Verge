@@ -55,3 +55,15 @@ export type GetJobType = Job & {
   _id: string
   createdAt: string
 }
+
+// job status count type
+export type StatusCount = {
+  pending: number
+  interview: number
+  declined: number
+}
+
+export type ChartData = {
+  data: string
+  count: number
+}

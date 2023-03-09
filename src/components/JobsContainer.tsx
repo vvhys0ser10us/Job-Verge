@@ -6,7 +6,9 @@ import { useEffect } from 'react'
 import { getAllJobs } from '../features/allJobs/allJobsSlice'
 
 const JobsContainer = () => {
-  const { isLoading, jobs } = useAppSelector((state) => state.allJobs)
+  const { isLoading, jobs, totalJobs } = useAppSelector(
+    (state) => state.allJobs
+  )
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const JobsContainer = () => {
 
   return (
     <Wrapper className="dashboard-section">
-      <h4>{jobs.length} jobs found</h4>
+      <h4>{totalJobs} jobs found</h4>
       <div className="jobs">
         {jobs.map((job) => {
           return <SingleJob key={job._id} {...job} />

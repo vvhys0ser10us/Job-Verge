@@ -2,7 +2,12 @@ import { createSlice } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import customFetch, { checkUnauthorizedResponse } from '../../utils/axios'
 import { createAppAsyncThunk } from '../../utils/hooks'
-import { GetJobType, SearchFilter } from '../../utils/types'
+import {
+  ChartData,
+  GetJobType,
+  SearchFilter,
+  StatusCount,
+} from '../../utils/types'
 
 type AllJobsStateType = {
   jobs: GetJobType[]
@@ -10,6 +15,8 @@ type AllJobsStateType = {
   searchFilter: SearchFilter
   totalJobs: number
   numOfPages: number
+  statusCount: StatusCount
+  data: ChartData[]
 }
 
 const searchFilter: SearchFilter = {
@@ -25,19 +32,43 @@ const initialState: AllJobsStateType = {
   searchFilter: searchFilter,
   totalJobs: 0,
   numOfPages: 0,
+  statusCount: {
+    pending: 0,
+    interview: 0,
+    declined: 0,
+  },
+  data: [],
 }
 
-type AsyncThunkType = {
+type GetJobsThunkType = {
   jobs: GetJobType[]
   totalJobs: number
   numOfPages: number
 }
 
-export const getAllJobs = createAppAsyncThunk<AsyncThunkType>(
+export const getAllJobs = createAppAsyncThunk<GetJobsThunkType>(
   'allJobs/getAllJobs',
   async (_, thunkAPI) => {
     try {
-      const resp = await customFetch.get<AsyncThunkType>('/jobs')
+      const resp = await customFetch.get<GetJobsThunkType>('/jobs')
+      return resp.data
+    } catch (error) {
+      return checkUnauthorizedResponse(error, thunkAPI)
+    }
+  }
+)
+
+type GetStatusThunkType = {
+  defaultStatus: StatusCount
+  monthlyApplications: ChartData[]
+}
+
+export const getStatus = createAppAsyncThunk<GetStatusThunkType>(
+  'allJobs/getStaus',
+  async (_, thunkAPI) => {
+    try {
+      const resp = await customFetch.get('/jobs/stats')
+      console.log(resp.data)
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)
@@ -87,6 +118,18 @@ const allJobsSlice = createSlice({
         })
       })
       .addCase(getAllJobs.rejected, (state, { payload }) => {
+        state.isLoading = false
+        toast.error(payload)
+      })
+      .addCase(getStatus.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getStatus.fulfilled, (state, { payload }) => {
+        state.isLoading = false
+        state.statusCount = payload.defaultStatus
+        state.data = payload.monthlyApplications
+      })
+      .addCase(getStatus.rejected, (state, { payload }) => {
         state.isLoading = false
         toast.error(payload)
       })
