@@ -94,6 +94,19 @@ const RegisterPage = () => {
           submit
         </button>
 
+        <button
+          type="button"
+          className="btn btn-block demo-btn"
+          disabled={isLoading}
+          onClick={() => {
+            dispatch(
+              loginUser({ email: 'testUser@test.com', password: 'secret' })
+            )
+          }}
+        >
+          Demo
+        </button>
+
         {value.isMember ? (
           <p>
             Not a member yet? <span onClick={toggleMember}>Register</span>
@@ -123,11 +136,19 @@ const Wrapper = styled.section`
     max-width: 400px;
 
     .form-btn {
-      margin-top: 2rem;
+      margin-top: 1rem;
     }
 
     .btn-loading {
       background: var(--clr-highlight-0);
+    }
+
+    .demo-btn {
+      margin-top: 0.75rem;
+      background: var(--clr-highlight-2);
+      &:hover {
+        background: var(--clr-highlight-1);
+      }
     }
 
     p {
