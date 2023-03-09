@@ -1,7 +1,11 @@
-import React from 'react'
+import StatusContainer from '../../components/StatusContainer'
 
 const Stats = () => {
-  return <div>Stats</div>
+  return (
+    <section className="dashboard-section">
+      <StatusContainer />
+    </section>
+  )
 }
 
 export default Stats
