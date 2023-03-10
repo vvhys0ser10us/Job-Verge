@@ -45,8 +45,6 @@ export const loginUser = createAppAsyncThunk<AsyncThunkUser, LoginUser>(
   async (user: LoginUser, thunkAPI) => {
     try {
       const resp = await customFetch.post<AsyncThunkUser>('/auth/login', user)
-      console.log(resp.data)
-
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)
@@ -95,7 +93,7 @@ const userSlice = createSlice({
       removeUserStorage()
       state.isSidebarOpen = false
       if (payload) {
-        toast.success('logging out')
+        toast.success(payload)
       }
     },
   },
@@ -115,7 +113,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, { payload }) => {
         state.isLoading = false
-        toast.error(payload + '.')
+        toast.error(payload)
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true
@@ -129,7 +127,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.isLoading = false
-        toast.error(payload + '.')
+        toast.error(payload)
       })
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true
@@ -146,7 +144,7 @@ const userSlice = createSlice({
         toast.error(payload)
       })
       .addCase(clearStore.rejected, () => {
-        toast.error('There was an error')
+        toast.error('There was an error.')
       })
   },
 })
