@@ -4,11 +4,11 @@ import { useAppSelector, useAppDispatch } from '../utils/hooks'
 import noJobImage from '../assets/images/nodisplay.svg'
 import { useEffect } from 'react'
 import { getAllJobs } from '../features/allJobs/allJobsSlice'
+import PageButtons from './PageButtons'
 
 const JobsContainer = () => {
-  const { isLoading, jobs, totalJobs, page, searchFilter } = useAppSelector(
-    (state) => state.allJobs
-  )
+  const { isLoading, jobs, totalJobs, page, searchFilter, numOfPages } =
+    useAppSelector((state) => state.allJobs)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -40,6 +40,7 @@ const JobsContainer = () => {
           return <SingleJob key={job._id} {...job} />
         })}
       </div>
+      {numOfPages > 1 && <PageButtons />}
     </Wrapper>
   )
 }

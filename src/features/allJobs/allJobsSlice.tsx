@@ -99,9 +99,11 @@ const allJobsSlice = createSlice({
       state.searchFilter = searchFilter
     },
     handleFilterChange: (state, { payload }) => {
+      state.page = 1
       state.searchFilter.search = payload
     },
     handleFilterSelect: (state, { payload: { name, value } }) => {
+      state.page = 1
       if (name === 'searchStatus') {
         state.searchFilter.searchStatus = value
       }
@@ -111,6 +113,9 @@ const allJobsSlice = createSlice({
       if (name === 'sort') {
         state.searchFilter.sort = value
       }
+    },
+    handlePageNumber: (state, { payload }) => {
+      state.page = payload
     },
   },
   extraReducers(builder) {
@@ -168,5 +173,6 @@ export const {
   handleFilterChange,
   clearFilter,
   handleFilterSelect,
+  handlePageNumber,
 } = allJobsSlice.actions
 export default allJobsSlice.reducer

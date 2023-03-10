@@ -16,10 +16,12 @@ const SearchForm = () => {
   const dispatch = useAppDispatch()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isLoading) return
     dispatch(handleFilterChange(e.target.value))
   }
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (isLoading) return
     dispatch(handleFilterSelect({ name: e.target.name, value: e.target.value }))
   }
 
