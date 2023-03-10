@@ -31,7 +31,7 @@ const ChartContainer = () => {
       <span onClick={() => setBarType(!barType)}>
         {barType ? 'Bar Chart' : 'Area Chart'}
       </span>
-      {barType ? <BarChart /> : <AreaChart data={data} />}
+      {barType ? <BarChart data={data} /> : <AreaChart data={data} />}
     </Wrapper>
   )
 }
