@@ -7,7 +7,7 @@ const StatusContainer = () => {
   const { statusCount } = useAppSelector((state) => state.allJobs)
 
   return (
-    <Wrapper>
+    <Wrapper className="dashboard-section">
       <SingleStatus
         count={statusCount.pending}
         icon={<FaSpinner />}
@@ -33,7 +33,7 @@ const StatusContainer = () => {
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   display: grid;
   row-gap: 2rem;
 

@@ -59,7 +59,7 @@ export const getAllJobs = createAppAsyncThunk<GetJobsThunkType>(
 )
 
 type GetStatusThunkType = {
-  defaultStatus: StatusCount
+  defaultStats: StatusCount
   monthlyApplications: ChartData[]
 }
 
@@ -68,7 +68,6 @@ export const getStatus = createAppAsyncThunk<GetStatusThunkType>(
   async (_, thunkAPI) => {
     try {
       const resp = await customFetch.get('/jobs/stats')
-      console.log(resp.data)
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)
@@ -126,7 +125,7 @@ const allJobsSlice = createSlice({
       })
       .addCase(getStatus.fulfilled, (state, { payload }) => {
         state.isLoading = false
-        state.statusCount = payload.defaultStatus
+        state.statusCount = payload.defaultStats
         state.data = payload.monthlyApplications
       })
       .addCase(getStatus.rejected, (state, { payload }) => {

@@ -1,10 +1,20 @@
-import { StatusContainer } from '../../components'
+import { useEffect } from 'react'
+import { StatusContainer, ChartContainer } from '../../components'
+import { getStatus } from '../../features/allJobs/allJobsSlice'
+import { useAppDispatch } from '../../utils/hooks'
 
 const Stats = () => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(getStatus())
+  }, [])
+
   return (
-    <section className="dashboard-section">
+    <>
       <StatusContainer />
-    </section>
+      <ChartContainer />
+    </>
   )
 }
 
