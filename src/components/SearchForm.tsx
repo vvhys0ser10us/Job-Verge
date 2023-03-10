@@ -6,19 +6,29 @@ import {
   handleFilterChange,
   handleFilterSelect,
 } from '../features/allJobs/allJobsSlice'
+import { useMemo, useState } from 'react'
 
 const SearchForm = () => {
   const {
     isLoading,
-    searchFilter: { search, searchStatus, searchType, sort },
+    searchFilter: { searchStatus, searchType, sort },
   } = useAppSelector((store) => store.allJobs)
+  const [localSearch, setLocalSearch] = useState<string>('')
 
   const dispatch = useAppDispatch()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isLoading) return
-    dispatch(handleFilterChange(e.target.value))
+  const debounce = () => {
+    let timeoutID: number
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      setLocalSearch(e.target.value)
+      clearTimeout(timeoutID)
+      timeoutID = setTimeout(() => {
+        dispatch(handleFilterChange(e.target.value))
+      }, 1000)
+    }
   }
+
+  const optimizedDebounce = useMemo(() => debounce(), [])
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (isLoading) return
@@ -38,8 +48,8 @@ const SearchForm = () => {
           <FormRow
             type="text"
             name="search"
-            value={search}
-            handleChange={handleChange}
+            value={localSearch}
+            handleChange={optimizedDebounce}
           />
           <FormSelect
             labelText="status"
