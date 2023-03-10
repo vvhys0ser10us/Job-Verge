@@ -6,14 +6,14 @@ import { useEffect } from 'react'
 import { getAllJobs } from '../features/allJobs/allJobsSlice'
 
 const JobsContainer = () => {
-  const { isLoading, jobs, totalJobs } = useAppSelector(
+  const { isLoading, jobs, totalJobs, page, searchFilter } = useAppSelector(
     (state) => state.allJobs
   )
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getAllJobs())
-  }, [])
+  }, [page, searchFilter])
 
   if (isLoading) {
     return (

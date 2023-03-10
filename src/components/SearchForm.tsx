@@ -1,6 +1,11 @@
 import FormRow from './FormRow'
 import FormSelect from './FormSelect'
 import { useAppSelector, useAppDispatch } from '../utils/hooks'
+import {
+  clearFilter,
+  handleFilterChange,
+  handleFilterSelect,
+} from '../features/allJobs/allJobsSlice'
 
 const SearchForm = () => {
   const {
@@ -8,12 +13,19 @@ const SearchForm = () => {
     searchFilter: { search, searchStatus, searchType, sort },
   } = useAppSelector((store) => store.allJobs)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {}
+  const dispatch = useAppDispatch()
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {}
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(handleFilterChange(e.target.value))
+  }
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(handleFilterSelect({ name: e.target.name, value: e.target.value }))
+  }
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
+    dispatch(clearFilter())
   }
 
   return (

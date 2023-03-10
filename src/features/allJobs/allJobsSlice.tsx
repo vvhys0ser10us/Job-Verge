@@ -17,6 +17,7 @@ type AllJobsStateType = {
   numOfPages: number
   statusCount: StatusCount
   data: ChartData[]
+  page: number
 }
 
 const searchFilter: SearchFilter = {
@@ -38,6 +39,7 @@ const initialState: AllJobsStateType = {
     declined: 0,
   },
   data: [],
+  page: 1,
 }
 
 type GetJobsThunkType = {
@@ -49,8 +51,16 @@ type GetJobsThunkType = {
 export const getAllJobs = createAppAsyncThunk<GetJobsThunkType>(
   'allJobs/getAllJobs',
   async (_, thunkAPI) => {
+    const {
+      page,
+      searchFilter: { search, searchStatus, searchType, sort },
+    } = thunkAPI.getState().allJobs
+    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}&page=${page}`
+    if (search) {
+      url = url + `&search=${search}`
+    }
     try {
-      const resp = await customFetch.get<GetJobsThunkType>('/jobs')
+      const resp = await customFetch.get<GetJobsThunkType>(url)
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)
@@ -84,6 +94,23 @@ const allJobsSlice = createSlice({
     },
     hideLoading: (state) => {
       state.isLoading = false
+    },
+    clearFilter: (state) => {
+      state.searchFilter = searchFilter
+    },
+    handleFilterChange: (state, { payload }) => {
+      state.searchFilter.search = payload
+    },
+    handleFilterSelect: (state, { payload: { name, value } }) => {
+      if (name === 'searchStatus') {
+        state.searchFilter.searchStatus = value
+      }
+      if (name === 'searchType') {
+        state.searchFilter.searchType = value
+      }
+      if (name === 'sort') {
+        state.searchFilter.sort = value
+      }
     },
   },
   extraReducers(builder) {
@@ -135,5 +162,11 @@ const allJobsSlice = createSlice({
   },
 })
 
-export const { hideLoading, showLoading } = allJobsSlice.actions
+export const {
+  hideLoading,
+  showLoading,
+  handleFilterChange,
+  clearFilter,
+  handleFilterSelect,
+} = allJobsSlice.actions
 export default allJobsSlice.reducer
