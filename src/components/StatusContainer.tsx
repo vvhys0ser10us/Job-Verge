@@ -12,19 +12,22 @@ const StatusContainer = () => {
         count={statusCount.pending}
         icon={<FaSpinner />}
         text="Pending Applications"
-        clr="pending"
+        clr="--clr-highlight-1"
+        bcg="--clr-highlight-3"
       />
       <SingleStatus
         count={statusCount.interview}
         icon={<FaCalendarCheck />}
         text="Interviews Scheduled"
-        clr="interview"
+        clr="--clr-tertiary-1"
+        bcg="--clr-tertiary-3"
       />
       <SingleStatus
         count={statusCount.declined}
         icon={<FaHeartBroken />}
         text="Jobs Declined"
-        clr="declined"
+        clr="--clr-secondary"
+        bcg="--clr-secondary-3"
       />
     </Wrapper>
   )

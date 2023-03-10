@@ -6,24 +6,31 @@ type PropsType = {
   text: string
   icon: ReactElement
   clr: string
+  bcg: string
 }
 
-const SingleStatus = ({ count, text, icon, clr }: PropsType) => {
+type StyledProps = {
+  clr: string
+  bcg: string
+}
+
+const SingleStatus = ({ count, text, icon, clr, bcg }: PropsType) => {
   return (
-    <Wrapper className={clr}>
+    <Wrapper clr={clr} bcg={bcg}>
       <div className="content-center">
         <h1>{count}</h1>
-        <span className={clr}>{icon}</span>
+        <span>{icon}</span>
       </div>
       <p>{text}</p>
     </Wrapper>
   )
 }
 
-const Wrapper = styled.article`
+const Wrapper = styled.article<StyledProps>`
   background: var(--clr-background-primary);
   padding: 2rem;
   border-radius: var(--borderRadius);
+  border-bottom: 5px solid var(${(props) => props.clr});
 
   .content-center {
     display: flex;
@@ -33,7 +40,7 @@ const Wrapper = styled.article`
 
     h1 {
       margin: 0;
-      color: inherit;
+      color: var(${(props) => props.clr});
     }
 
     span {
@@ -43,7 +50,8 @@ const Wrapper = styled.article`
       place-items: center;
       font-size: 2rem;
       border-radius: var(--borderRadius);
-      border: transparent;
+      color: var(${(props) => props.clr});
+      background: var(${(props) => props.bcg});
     }
   }
 
@@ -52,21 +60,6 @@ const Wrapper = styled.article`
     color: var(--clr-main);
     margin: 0;
     letter-spacing: var(--letterSpacing);
-  }
-
-  .interview {
-    color: var(--clr-tertiary-1);
-    background: var(--clr-tertiary-3);
-  }
-
-  .declined {
-    color: var(--clr-secondary);
-    background: #dfe3e8;
-  }
-
-  .pending {
-    color: var(--clr-highlight-1);
-    background: var(--clr-highlight-3);
   }
 `
 
