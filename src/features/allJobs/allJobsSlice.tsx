@@ -117,6 +117,7 @@ const allJobsSlice = createSlice({
     handlePageNumber: (state, { payload }) => {
       state.page = payload
     },
+    clearAllJobsState: () => initialState,
   },
   extraReducers(builder) {
     builder
@@ -174,5 +175,6 @@ export const {
   clearFilter,
   handleFilterSelect,
   handlePageNumber,
+  clearAllJobsState,
 } = allJobsSlice.actions
 export default allJobsSlice.reducer

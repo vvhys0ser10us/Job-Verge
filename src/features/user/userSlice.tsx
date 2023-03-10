@@ -8,6 +8,8 @@ import {
   removeUserStorage,
 } from '../../utils/localStorage'
 import { User, LoginUser, UpdateUser } from '../../utils/types'
+import { clearAllJobsState } from '../allJobs/allJobsSlice'
+import { clearValues } from '../job/jobSlice'
 
 export type UserStateType = {
   isSidebarOpen: boolean
@@ -63,6 +65,20 @@ export const updateUser = createAppAsyncThunk<AsyncThunkUser, UpdateUser>(
       return resp.data
     } catch (error) {
       return checkUnauthorizedResponse(error, thunkAPI)
+    }
+  }
+)
+
+export const clearStore = createAppAsyncThunk(
+  'user/clearStore',
+  async (msg: string, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(logoutUser(msg))
+      thunkAPI.dispatch(clearAllJobsState())
+      thunkAPI.dispatch(clearValues())
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject()
     }
   }
 )
@@ -128,6 +144,9 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, { payload }) => {
         state.isLoading = false
         toast.error(payload)
+      })
+      .addCase(clearStore.rejected, () => {
+        toast.error('There was an error')
       })
   },
 })
