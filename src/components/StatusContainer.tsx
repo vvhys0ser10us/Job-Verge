@@ -45,18 +45,6 @@ const Wrapper = styled.div`
   @media (min-width: 1120px) {
     grid-template-columns: 1fr 1fr 1fr;
   }
-
-  .interview {
-    border-bottom: 5px solid var(--clr-tertiary-2);
-  }
-
-  .declined {
-    border-bottom: 5px solid var(--clr-secondary);
-  }
-
-  .pending {
-    border-bottom: 5px solid var(--clr-highlight-2);
-  }
 `
 
 export default StatusContainer

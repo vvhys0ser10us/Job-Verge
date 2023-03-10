@@ -6,6 +6,7 @@ import SidebarSm from './SidebarSm'
 import FormSelect from './FormSelect'
 import SearchForm from './SearchForm'
 import JobsContainer from './JobsContainer'
+import StatusContainer from './StatusContainer'
 
 export {
   Logo,
@@ -16,4 +17,5 @@ export {
   FormSelect,
   SearchForm,
   JobsContainer,
+  StatusContainer,
 }

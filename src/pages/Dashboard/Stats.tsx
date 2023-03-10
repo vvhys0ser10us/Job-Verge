@@ -1,4 +1,4 @@
-import StatusContainer from '../../components/StatusContainer'
+import { StatusContainer } from '../../components'
 
 const Stats = () => {
   return (
